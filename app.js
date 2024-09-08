@@ -1,7 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv'
-import cookieParser from 'cookie-parser';
-import mongoose, { connect } from 'mongoose';
+import { connect } from 'mongoose';
 import { userRouter } from './Routers/userRouters.js';
 import { pageRouter } from './Routers/pageRouters.js';
 import { venueRouter } from './Routers/venueRouters.js';
@@ -14,7 +13,6 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static("public"))
 app.set("view engine", "ejs")
-app.use(cookieParser())
 
 const PORT = process.env.SERVER_PORT
 const URI = process.env.CONNECTION_STRING

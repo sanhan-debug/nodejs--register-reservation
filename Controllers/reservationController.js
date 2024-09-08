@@ -1,17 +1,17 @@
 import { reservationModel, userModel } from "../Models/model.js"
 
 const createReservation = async (req, res) => {
-    const { date, time, numberOfPeople } = req.body
+    const { date, time, numberOfPeople ,email} = req.body
 
     try {
 
-        const user = await userModel.find({email:"snhansayilov@gmail.com"})
+        const user = await userModel.find({ email })
 
         await reservationModel.create({
             date,
             time,
             numberOfPeople,
-            userId:user._id
+            userId: user._id
         })
 
         res.send("reservation was successfully completed").status(200)
@@ -45,7 +45,7 @@ const getIdReservations = async (req, res) => {
 }
 
 const deleteReservation = async (req, res) => {
-    const {id} = req.params
+    const { id } = req.params
     try {
         await reservationModel.findByIdAndDelete(id)
         res.send("reservation has been deleted").status(200)

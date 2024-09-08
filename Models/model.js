@@ -10,7 +10,7 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
-        // unique: true,
+        unique: true,
         validate:
         {
             validator: validator.isEmail,
@@ -19,12 +19,13 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        // minLength: 8,
     },
     role: {
         type: String,
         enum: ['user', 'admin'],
-        default: 'user'
+        default:"user"
     }
 }, {
     versionKey: false,

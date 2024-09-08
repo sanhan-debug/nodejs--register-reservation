@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import { userModel } from '../Models/model.js'
-import jwt from 'jsonwebtoken'
+import { createToken } from '../Middlewares/authantication.js'
 
 
 const createUser = (req, res) => {
@@ -23,6 +23,7 @@ const createUser = (req, res) => {
 
         res.status(201).redirect('/api/auth/login')
 
+
     } catch (error) {
         res.status(401).send("there is the problem")
         console.log(error)
@@ -34,20 +35,15 @@ const createUser = (req, res) => {
 
 const loginUser = async (req, res) => {
     try {
-        const { email, password } = req.body
+        const {email,password} = req.body
 
-        const user = await userModel.findOne({ email })
-        const admin = await userModel.find({email:"admin@gmail.com"})
-
-        if(admin){
-            req.user.role = "admin"
-        }
+        const user = await userModel.findOne({email})
 
         if (user) {
             const pass = await bcrypt.compare(password, user.password)
             if (pass) {
-                const token = jwt.sign({user},'nodejs-task')
-                res.redirect(`/api/user/${user._id}/${token}`)
+                createToken(user)
+                res.send("true")
             } else {
                 res.send("password is not true")
             }

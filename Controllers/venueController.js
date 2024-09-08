@@ -1,4 +1,4 @@
-import { venueModel } from "../Models/model.js"
+import { userModel, venueModel } from "../Models/model.js"
 
 const createVenue = (req, res) => {
     const { name, location, capacity, description } = req.body
@@ -11,7 +11,7 @@ const createVenue = (req, res) => {
                 location,
                 capacity,
                 description,
-                // createdBy:_id
+                createdBy:req.user._id
             })
 
             res.status(201).send("venue has been added")
