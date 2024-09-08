@@ -29,10 +29,10 @@ export const createToken = (user) => {
   // user.id və user.role JWT tokenə daxil ediləcək
   const token = jwt.sign(
       { id: user._id, role: user.role }, // Payload: istifadəçi məlumatları
-      process.env.SECRET_KEY, // Gizli açar (bu sizin öz xüsusi açarınız olmalıdır)
+      process.env.SECRET_KEY, // Gizli açar (bu sizin öz xüsusi açarınız)
       { expiresIn: '1h' } // Tokenin müddəti (1 saatlıq token)
   );
-  // console.log(req.headers)
+  console.log(token)
 };
 
 // Admin icazəsi üçün əlavə middleware

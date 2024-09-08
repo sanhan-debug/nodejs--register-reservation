@@ -1,7 +1,8 @@
 import { reservationModel, userModel } from "../Models/model.js"
 
 const createReservation = async (req, res) => {
-    const { date, time, numberOfPeople ,email} = req.body
+    const { date, time, numberOfPeople } = req.body
+    const { emai } = req.user
 
     try {
 
