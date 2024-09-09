@@ -1,18 +1,62 @@
+# Qeydiyyat və Rezervasiya Sistemi API
 
+Bu API istifadəçilərin qeydiyyatdan keçməsi, giriş etməsi, məkanları idarə etməsi və rezervasiya yaratması üçün istifadə olunur.
 
-post '/api/auth/register' ------- username,email, password yazaraq girish qeydiyyatdan kechirsiz
-post '/api/auth/login' ---------- email,password yazaraq girish edirsiz
-get '/api/user/:id' ------------- id'sine gore useri verir
+## Autentifikasiya və İstifadəçi Əməliyyatları
 
+### POST `/api/auth/register`
+İstifadəçinin qeydiyyatdan keçməsi üçün.  
+**Input**: `username`, `email`, `password`  
+**Response**: Qeydiyyatdan keçən istifadəçi məlumatları.
 
-get '/api/venues' --------------- butun mekanlari verir
-get '/api/venues/:id' ----------- id'sine gore mekani verir
-put '/api/venues/:id' ----------- id'sine gore mekanda deyishiklik etmek (yalniz admin)
-delete '/api/venues/:id' -------- id'sine gore mekani silmek (yalniz admin)
-post '/api/venues' -------------- name,location,capacity,description gondererek yeni mekan yaradiriq (yalniz admin)
+### POST `/api/auth/login`
+İstifadəçinin giriş etməsi üçün.  
+**Input**: `email`, `password`  
+**Response**: Giriş uğurlu olarsa, JWT token.
 
+### GET `/api/user/:id`
+Verilən `id`-yə əsasən istifadəçi məlumatlarını əldə etmək üçün.  
+**Access**: Avtorizasiya tələb olunur.
 
-get '/api/reservations'  -------- butun rezervasiyalara girish (yalniz admin)
-get '/api/reservations/:id' ----- id'sine gore rezervasiyaya girish
-delete '/api/reservations/:id --- id'sine gore rezervaziyani legv etmek
-post '/api/reservations' -------- date,time,numberOfPeople'ni gondererek yeni rezervasiya yaradiriq
+## Məkan Əməliyyatları
+
+### GET `/api/venues`
+Bütün məkanların siyahısını əldə etmək üçün.  
+**Access**: İctimai.
+
+### GET `/api/venues/:id`
+Verilən `id`-yə əsasən məkan məlumatlarını əldə etmək üçün.  
+**Access**: İctimai.
+
+### POST `/api/venues`
+Yeni məkan yaratmaq üçün (yalnız admin istifadəçilər).  
+**Input**: `name`, `location`, `capacity`, `description`  
+**Access**: Admin.
+
+### PUT `/api/venues/:id`
+Verilən `id`-yə əsasən məkan məlumatlarını yeniləmək üçün (yalnız admin istifadəçilər).  
+**Access**: Admin.
+
+### DELETE `/api/venues/:id`
+Verilən `id`-yə əsasən məkanı silmək üçün (yalnız admin istifadəçilər).  
+**Access**: Admin.
+
+## Rezervasiya Əməliyyatları
+
+### GET `/api/reservations`
+Bütün rezervasiyalara baxmaq üçün (yalnız admin istifadəçilər).  
+**Access**: Admin.
+
+### GET `/api/reservations/:id`
+Verilən `id`-yə əsasən rezervasiya məlumatlarını əldə etmək üçün.  
+**Access**: Avtorizasiya tələb olunur.
+
+### POST `/api/reservations`
+Yeni rezervasiya yaratmaq üçün.  
+**Input**: `date`, `time`, `numberOfPeople`  
+**Response**: Yaradılan rezervasiya məlumatları.  
+**Access**: İctimai (giriş tələb olunur).
+
+### DELETE `/api/reservations/:id`
+Verilən `id`-yə əsasən rezervasiyanı ləğv etmək üçün.  
+**Access**: Avtorizasiya tələb olunur.
