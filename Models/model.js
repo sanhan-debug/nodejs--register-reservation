@@ -67,7 +67,7 @@ const reservationSchema = new Schema({
         ref: 'venues'
     },
     date: {
-        type: String
+        type: Date
     },
     time: {
         type: String
@@ -75,6 +75,10 @@ const reservationSchema = new Schema({
     numberOfPeople: {
         type: Number,
         required: true
+    },
+    createdBy:{
+        type:Schema.Types.ObjectId,
+        ref:'users'
     }
 }, {
     versionKey: false,

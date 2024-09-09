@@ -2,43 +2,40 @@ import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
 
-  const token = req.headers['authorization'];
-  
+  const token = req.headers.authorization;
+
   if (!token) {
-      return res.status(403).send('No token provided.');
+    return res.status(403).send('please login.');
   }
 
-  // "Bearer " prefiksini silirik və tokeni yoxlayırıq
-  const tokenWithoutBearer = token.split(' ')[1];
+  const only_token = token.split(' ')[1];
 
-  jwt.verify(tokenWithoutBearer, process.env.SECRET_KEY, (err, decoded) => {
-      if (err) {
-          return res.status(500).send('Failed to authenticate token.');
-      }
+  jwt.verify(only_token, process.env.SECRET_KEY, (err, decoded) => {
+    if (err) {
+      return res.status(500).send('Failed to authenticate token.');
+    }
 
-      // Token doğru olduqda, istifadəçi ID və rolu decoded məlumatdan alırıq
-      req.userId = decoded.id;
-      req.userRole = decoded.role;
-
-      next();
+    console.log("Decoded JWT: ", decoded); // JWT-in düzgün şəkildə deşifrə olunduğunu yoxlayın
+    req.user = { id: decoded.id, role: decoded.role };
+    next();
   });
 };
 
 
 export const createToken = (user) => {
-  // user.id və user.role JWT tokenə daxil ediləcək
   const token = jwt.sign(
-      { id: user._id, role: user.role }, // Payload: istifadəçi məlumatları
-      process.env.SECRET_KEY, // Gizli açar (bu sizin öz xüsusi açarınız)
-      { expiresIn: '1h' } // Tokenin müddəti (1 saatlıq token)
+    { id: user._id, role: user.role },
+    process.env.SECRET_KEY,
+    { expiresIn: '1h' }
   );
-  console.log(token)
+
+  return token;
 };
 
-// Admin icazəsi üçün əlavə middleware
 export const checkAdmin = (req, res, next) => {
-  if (req.user.role !== 'admin') {
-      return res.status(403).send('Admin rights required.');
+  if (req.user && req.userRole === 'admin') {
+    next();
+  } else {
+    res.sendStatus(403); 
   }
-  next();
-};
+}

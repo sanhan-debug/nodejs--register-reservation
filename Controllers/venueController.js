@@ -68,11 +68,14 @@ const deleteIdVenue = async (req, res) => {
         await venueModel.findByIdAndDelete(id)
         res.send("venue has been deleted").status(200)
     } catch (error) {
-        console.error("deleteIdVenue error")
-        res.send("There is a problem with the server!").status(400)
+      error(error)
     }
 }
 
+const error = (req,res)=>{
+    console.error("deleteIdVenue error")
+    res.send("There is a problem with the server!").status(400)
+}
 
 
 

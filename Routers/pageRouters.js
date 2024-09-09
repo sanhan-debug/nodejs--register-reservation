@@ -10,3 +10,7 @@ pageRouter.get('/api/auth/register',(req,res)=>{
 pageRouter.get('/api/auth/login',(req,res)=>{
     res.render('login')
 })
+
+pageRouter.get('/api/reservation',(req,res)=>{
+    res.render('reservation')
+})

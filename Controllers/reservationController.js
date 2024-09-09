@@ -2,24 +2,25 @@ import { reservationModel, userModel } from "../Models/model.js"
 
 const createReservation = async (req, res) => {
     const { date, time, numberOfPeople } = req.body
-    const { emai } = req.user
+    // const { email } = req.user
 
     try {
 
-        const user = await userModel.find({ email })
+        // const user = await userModel.find({ email })
 
         await reservationModel.create({
             date,
             time,
             numberOfPeople,
-            userId: user._id
+            createdBy: req.user.id
         })
 
-        res.send("reservation was successfully completed").status(200)
+        res.status(200).send("rezervasiya ugurla tamamlandi!").status(200)
+
 
 
     } catch (error) {
-        console.error("createReservation error")
+        console.error(error)
         res.status(400).send("bad request")
     }
 }
