@@ -11,7 +11,7 @@ const createVenue = (req, res) => {
                 location,
                 capacity,
                 description,
-                createdBy:req.user._id
+                createdBy:req.user.id
             })
 
             res.status(201).send("venue has been added")

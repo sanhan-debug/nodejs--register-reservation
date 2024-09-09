@@ -30,7 +30,7 @@ const userReservations = async (req, res) => {
         const reservations = await reservationModel.find()
         res.status(200).send(reservations)
     } catch (error) {
-        console.error("userReservation error")
+        console.error(error)
         res.status(400).send("bad request")
     }
 }
@@ -41,7 +41,7 @@ const getIdReservations = async (req, res) => {
         const reservation = await reservationModel.findById(id)
         res.send(reservation).status(200)
     } catch (error) {
-        console.error("getIdReservation error")
+        console.error(error)
         res.status(400).send("bad request")
     }
 }
@@ -52,7 +52,7 @@ const deleteReservation = async (req, res) => {
         await reservationModel.findByIdAndDelete(id)
         res.send("reservation has been deleted").status(200)
     } catch (error) {
-        console.error("deleteReservatiion error")
+        console.error(error)
         res.status(400).send("bad request")
     }
 }
